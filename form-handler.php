@@ -1,25 +1,33 @@
 <?php
-$name = $_POST['name'];
-$visitor_email = $_POST['email'];
-$subject = $_POST['subject'];
-$message = $_POST['message'];
+$sname="localhost";
+$uname="root";
+$pass="";
+$dbname="college";
 
-$email_from = 'Sanjivaniiiiiiiii@gmai.com';
+$conn=mysqli_connect($sname,$uname,$pass,$dbname);
+if(isset($_POST['submit'])){
+    if(!empty($_POST['user']) && !empty($_POST['email']) && !empty($_POST['mobile']) && !empty($_POST['comment'])){
+        $user=$_POST['user'];
+        $email=$_POST['email'];
+        $mobile=$_POST['mobile'];
+        $comment=$_POST['comment'];
 
-$email_subject = 'New form Submission';
+        $query="insert into student(user,email,mobile,comment)values('$user','$email','$mobile','$comment')";
+        $run=mysqli_query($conn,$query) or die(mysqli_error());
+   
+ }
+   
+ if($run){
+    echo  "<h1><center>Submitted</center></h1>";
 
-$email_body = "User Name: $name.\n".
-               "User Email: $visitor_email.\n".
-                "Subject: $subject.\n".
-                "User Message: $message .\n";
 
-$to = 'dhordekunal@gmail.com';
+ }
+ else{
+        echo "All feilds required";
+    }
 
-$headers = "From: $email_from \r\n";
+}
 
-$headers .= "Reply-To: $visitor_email \r\n";
 
-mail($to,$email_subject,$email_body,$headers);
-
-header("Location: contact.html");
 ?>
+
